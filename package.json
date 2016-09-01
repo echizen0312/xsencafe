@@ -1,0 +1,33 @@
+{
+  "name": "xsencafe",
+  "version": "1.0.0",
+  "description": "wb want",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/echizen0312/xsencafe.git"
+  },
+  "keywords": [
+    "vip",
+    "list"
+  ],
+  "author": "sakuya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/echizen0312/xsencafe/issues"
+  },
+  "homepage": "https://github.com/echizen0312/xsencafe#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "mongoose": "^4.5.10"
+  }
+}
