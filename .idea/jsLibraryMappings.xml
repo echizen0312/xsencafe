@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="PROJECT" libraries="{angularjs-DefinitelyTyped, body-parser-DefinitelyTyped, bootstrap-DefinitelyTyped, express-DefinitelyTyped, gruntjs-DefinitelyTyped, jquery-DefinitelyTyped, mongoose-DefinitelyTyped}" />
+    <includedPredefinedLibrary name="Node.js Core" />
+  </component>
+</project>
