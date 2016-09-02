@@ -25,7 +25,7 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-app.use('/web', express.static(path.join(__dirname, 'static')));
+app.use('/wap', express.static(path.join(__dirname, 'static')));
 app.all('/', function (req, res) {
-    res.send('hello world !');
+    res.redirect('/wap/login.html');
 });

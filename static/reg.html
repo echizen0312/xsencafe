@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://at.alicdn.com/t/font_1468046274_9419603.css" rel="stylesheet"/>
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
+    <script src="js/reg.js"></script>
+    <style>
+        body,
+        body * {
+            font-family: "microsoft yahei";
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+
+<body ng-app="regApp">
+<div class="container" ng-controller="regCtl">
+    <div class="panel panel-default" style="max-width: 600px; margin: 50px auto;">
+        <div class="panel-heading">
+            <h3 class="panel-title">用户注册</h3>
+        </div>
+        <div class="panel-body">
+            <form name="regForm">
+                <div class="form-group">
+                    <label>新的包名</label>
+                    <input type="text" class="form-control" placeholder="请输入你的包名" ng-model="pkgName" required="true">
+                </div>
+                <div class="form-group">
+                    <label>新的密码</label>
+                    <input type="password" class="form-control" placeholder="请输入你的密码" ng-model="password"
+                           required="true">
+                </div>
+                <div class="form-group">
+                    <label>重复输入密码</label>
+                    <input type="password" class="form-control" placeholder="请输入你的密码" ng-model="passwordR"
+                           required="true">
+                </div>
+                <div class="form-group">
+                    <label>你的注册码</label>
+                    <input type="text" class="form-control" placeholder="请输入你的注册码" ng-model="code" required="true">
+                </div>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-xs-6">
+                        <button type="button" class="btn btn-danger" style="width: 100%;" ng-click="goLogin()">返回
+                        </button>
+                    </div>
+                    <div class="col-xs-6">
+                        <button type="button" ng-disabled="!regForm.$valid" class="btn btn-success" style="width: 100%;"
+                                ng-click="goReg()">注册
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" data-backdrop="static" id="loadP">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>数据交互中，请等待</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="msgP">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="msgBody"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
