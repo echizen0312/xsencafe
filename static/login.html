@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://at.alicdn.com/t/font_1468046274_9419603.css" rel="stylesheet"/>
+    <link href="http://at.alicdn.com/t/font_1468045361_5525043.css" rel="stylesheet" />
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="http://cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
@@ -36,8 +36,8 @@
         <div class="panel-body">
             <form name="loginForm">
                 <div class="form-group">
-                    <label>登录名</label>
-                    <input type="text" class="form-control" placeholder="请输入你的登录名" ng-model="loginName" required="true">
+                    <label>手机号</label>
+                    <input type="text" class="form-control" placeholder="请输入你的手机号" ng-model="mobile" required="true">
                 </div>
                 <div class="form-group">
                     <label>密码</label>
@@ -46,7 +46,8 @@
                 </div>
                 <div class="row" style="margin-top: 30px;;">
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-primary" style="width: 100%;" ng-click="goReg()">注册
+                        <button type="button" ng-disabled="true" class="btn btn-primary" style="width: 100%;"
+                                ng-click="goReg()">注册
                         </button>
                     </div>
                     <div class="col-xs-6">

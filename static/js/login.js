@@ -5,12 +5,12 @@ loginApp.controller('loginCtl', ['$scope', '$http', function ($scope, $http) {
         $('#msgP').modal('show');
     };
     $scope.goReg = function () {
-        location.href = 'reg.html';
+        $scope.showMsg('不提供这个功能');
     };
     $scope.goLogin = function () {
-        if ($scope.loginName != '' && $scope.password != '') {
+        if ($scope.mobile != '' && $scope.password != '') {
             var data = {
-                loginName: $scope.loginName,
+                mobile: $scope.mobile,
                 password: $scope.password
             }
             $('#loadP').modal('show');
@@ -29,6 +29,6 @@ loginApp.controller('loginCtl', ['$scope', '$http', function ($scope, $http) {
             $scope.showMsg('输入不完全');
         }
     };
-    $scope.loginName = '';
+    $scope.mobile = '';
     $scope.password = '';
 }]);

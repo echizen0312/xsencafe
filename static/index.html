@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://at.alicdn.com/t/font_1468045361_5525043.css" rel="stylesheet" />
+		<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="http://cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
+		<script src="js/index.js"></script>
+		<style>
+			body,
+			body * {
+				font-family: "microsoft yahei";
+			}
+		</style>
+		<script>
+			var indexApp = angular.module('indexApp', []);
+			indexApp.controller('indexCtl', ['$scope', '$http', function($scope, $http) {
+				$scope.showMsg = function(msg) {
+					$('#msgBody').html(msg);
+					$('#msgP').modal('show');
+				};
+				$scope.goMo1 = function() {
+					location.href = 'reg.html';
+				};
+				$scope.goMo2 = function() {
+					location.href = 'reg.html';
+				};
+				$scope.goMo3 = function() {
+					location.href = 'reg.html';
+				};
+				$scope.goMo4 = function() {
+					location.href = 'reg.html';
+				};
+				$scope.goMo5 = function() {
+					location.href = 'reg.html';
+				};
+			}]);
+		</script>
+	</head>
+
+	<body ng-app="indexApp" ng-controller="indexCtl" style="background-color: #E5E5E5;">
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<div type="button" class="navbar-toggle" style="border-color: #666666; text-align: center;" ng-click="goExit()">
+						<span class="glyphicon glyphicon-remove" style="color: white; width: 26px;"></span>
+					</div>
+					<a class="navbar-brand" href="javascript:void(0);">
+						<div style="font-size: 21px; color: white;">什么鬼VIP系统<span style="font-size: 14px;">&nbsp;&nbsp;by Sakuya</span></div>
+					</a>
+				</div>
+			</div>
+		</nav>
+		<div class="container" style="max-width: 600px; margin-top: 60px;">
+			<div class="row" style="margin-top: 15px;">
+				<div class="col-xs-4" style="padding-right: 7px;">
+					<div class="btn btn-info" style="width: 100%; height: 60px; line-height: 45px;" ng-click="goMo1()">注册会员</div>
+				</div>
+				<div class="col-xs-4" style="padding-left: 7px; padding-right: 7px;">
+					<div class="btn btn-info" style="width: 100%; height: 60px; line-height: 45px;" ng-click="goMo2()">查看会员</div>
+				</div>
+				<div class="col-xs-4" style="padding-left: 7px;">
+					<div class="btn btn-info" style="width: 100%; height: 60px; line-height: 45px;" ng-click="goMo3()">查看记录</div>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 14px;">
+				<div class="col-xs-6" style="padding-right: 7px;">
+					<div class="btn btn-success" style="width: 100%; height: 120px; line-height: 105px; font-size: 20px;" ng-click="goMo4()"><span class="iconfont icon-dati"></span> 点单</div>
+				</div>
+				<div class="col-xs-6" style="padding-left: 7px;">
+					<div class="btn btn-primary" style="width: 100%; height: 120px; line-height: 105px; font-size: 20px;" ng-click="goMo5()"><span class="iconfont icon-xiuxiankafeiyule"></span> 兑换</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" data-backdrop="static" id="loadP">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div>数据交互中，请等待</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="msgP">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div id="msgBody"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
