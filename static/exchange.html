@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://at.alicdn.com/t/font_1468045361_5525043.css" rel="stylesheet"/>
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
+    <script src="js/exchange.js"></script>
+    <style>
+        body,
+        body * {
+            font-family: "microsoft yahei";
+        }
+    </style>
+    <script>
+        var exchangeApp = angular.module('exchangeApp', []);
+        exchangeApp.controller('exchangeCtl', ['$scope', '$http', function ($scope, $http) {
+            $scope.showMsg = function (msg) {
+                $('#msgBody').html(msg);
+                $('#msgP').modal('show');
+            };
+            $scope.goHome = function () {
+                location.href = 'index.html';
+            };
+            $scope.kw = '';
+        }]);
+    </script>
+</head>
+
+<body ng-app="exchangeApp" ng-controller="exchangeCtl" style="background-color: #E5E5E5;">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <div type="button" class="navbar-toggle" style="border-color: #666666; text-align: center;">
+                <span class="glyphicon glyphicon-remove" style="color: white; width: 26px;"></span>
+            </div>
+            <a class="navbar-brand" href="javascript:void(0);">
+                <div style="font-size: 21px; color: white;">什么鬼VIP系统<span
+                        style="font-size: 14px;">&nbsp;&nbsp;by Sakuya</span></div>
+            </a>
+        </div>
+    </div>
+</nav>
+<div class="container" style="max-width: 600px; margin-top: 60px;">
+    <ol class="breadcrumb" style="margin-top: 15px;">
+        <li>
+            <a href="javascript:void(0);" ng-click="goHome()">首页</a>
+        </li>
+        <li class="active">兑换</li>
+    </ol>
+    <div class="row" style="margin-top: 15px; padding-left: 15px; padding-right: 15px;">
+        <form name="regForm">
+            <div class="form-group">
+                <label>输入条件</label>
+                <div class="input-group has-success">
+                    <input type="text" class="form-control" placeholder="请输入筛选条件" ng-model="kw">
+							<span class="input-group-btn">
+	        					<div class="btn btn-success" type="button">查询</div>
+	      					</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" data-backdrop="static" id="loadP">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>数据交互中，请等待</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="msgP">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="msgBody"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -10,6 +10,7 @@ var port = config.port;
 var dbIP = config.dbIP;
 var crypto = require('crypto');
 var admin = require('./model/admin');
+var user = require('./model/user');
 
 mongoose.connect('mongodb://' + dbIP + '/cafe');
 
@@ -74,20 +75,36 @@ app.post('/regUser', function (req, res) {
     var mobile = req.body.mobile;
     var uname = req.body.uname;
     var admin = req.body.admin;
-    if (mobile && pass) {
-        var u = new user({mobile: mobile, uname: uname, admin: admin});
-        u.save(function (err) {
-            if (err) {
-                res.json({success: false, msg: 'reg error'});
-            } else {
-                res.json({success: true, msg: 'ok'});
-            }
-        });
+    var isL = isLogin(req);
+    if (isL) {
+        if (mobile && uname && admin) {
+            var u = new user({mobile: mobile, uname: uname, admin: admin});
+            u.save(function (err) {
+                if (err) {
+                    res.json({success: false, msg: 'reg error'});
+                } else {
+                    res.json({success: true, msg: 'ok'});
+                }
+            });
+        } else {
+            res.json({success: false, msg: 'null'});
+        }
     } else {
-        res.json({success: false, msg: 'null'});
+        res.json({success: false, msg: '登录信息已过期，请重新登录'});
     }
 });
 
+function isLogin(req) {
+    if (req.session.login != null) {
+        if (req.session.login.isLogin) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
 app.all('/test', function (req, res) {
     var md5 = crypto.createHash('md5');
     md5.update('111111');
