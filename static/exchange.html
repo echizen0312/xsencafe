@@ -15,7 +15,6 @@
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="http://cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
-    <script src="js/exchange.js"></script>
     <style>
         body,
         body * {
@@ -61,6 +60,9 @@
             $scope.goHome = function () {
                 location.href = 'index.html';
             };
+            $scope.goExchange2 = function (user) {
+                location.href = 'exchange2.html#/?mobile=' + user.mobile + '&uname=' + user.uname;
+            };
             $scope.kw = '';
             $scope.getLogin();
         }]);
@@ -86,7 +88,7 @@
         <li>
             <a href="javascript:void(0);" ng-click="goHome()">首页</a>
         </li>
-        <li class="active">兑换</li>
+        <li class="active">会员兑换</li>
     </ol>
     <div class="row" style="margin-top: 15px; padding-left: 15px; padding-right: 15px;">
         <form name="regForm">
@@ -102,7 +104,8 @@
         </form>
     </div>
     <div class="list-group">
-        <a href="javascript:void(0);" class="list-group-item" ng-repeat="user in users" style="cursor: pointer;">
+        <a href="javascript:void(0);" class="list-group-item" ng-repeat="user in users" ng-click="goExchange2(user)"
+           style="cursor: pointer;">
             <div class="row">
                 <div class="col-xs-7" style="text-align: left;" ng-bind="user.uname"></div>
                 <div class="col-xs-5" style="text-align: right;" ng-bind="user.mobile"></div>

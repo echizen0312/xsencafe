@@ -1,16 +1,21 @@
 {
-	"success": true,
-	"msg": "ok",
-	"rows": [
-		{
-			"mname": "一瓶可乐",
-			"money": 3
-		}, {
-			"mname": "一杯咖啡",
-			"money": 8
-		}, {
-			"mname": "一盘炸鸡",
-			"money": 15
-		}
-	]
+  "success": true,
+  "msg": "ok",
+  "rows": [
+    {
+      "mname": "一瓶可乐",
+      "money": 3,
+      "num": 0
+    },
+    {
+      "mname": "一杯咖啡",
+      "money": 8,
+      "num": 0
+    },
+    {
+      "mname": "一盘炸鸡",
+      "money": 15,
+      "num": 0
+    }
+  ]
 }

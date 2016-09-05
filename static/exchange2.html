@@ -22,8 +22,8 @@
         }
     </style>
     <script>
-        var buy2App = angular.module('buy2App', []);
-        buy2App.controller('buy2Ctl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+        var exchange2App = angular.module('exchange2App', []);
+        exchange2App.controller('exchange2Ctl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
             $scope.showMsg = function (msg) {
                 $('#msgBody').html(msg);
                 $('#msgP').modal('show');
@@ -34,12 +34,25 @@
                         $scope.login = data.login;
                         $scope.mobile = $location.search().mobile;
                         $scope.uname = $location.search().uname;
+                        $scope.getEcnt();
                         $scope.getMenus();
                     } else {
                         location.href = 'login.html';
                     }
                 }).error(function () {
                     location.href = 'login.html';
+                });
+            };
+            $scope.getEcnt = function () {
+                $http.post('../getEcnt', {mobile: $scope.mobile}).success(function (data) {
+                    if (data.success) {
+                        $scope.ecnt = data.ecnt;
+                        $scope.cant = Math.floor(data.ecnt / 2);
+                    } else {
+                        $scope.showMsg(data.msg);
+                    }
+                }).error(function () {
+                    $scope.showMsg('访问不了服务器');
                 });
             };
             $scope.getMenus = function () {
@@ -56,14 +69,16 @@
             $scope.minus = function (menu) {
                 if (menu.num >= 1) {
                     menu.num--;
+                    $scope.nowt--;
                 }
             };
             $scope.plus = function (menu) {
-                if (menu.num < 99) {
+                if (menu.num < 99 && $scope.nowt < $scope.cant) {
                     menu.num++;
+                    $scope.nowt++;
                 }
             };
-            $scope.buyItem = function () {
+            $scope.exchangeItem = function () {
                 var data = {
                     mobile: $scope.mobile,
                     uname: $scope.uname,
@@ -71,7 +86,7 @@
                     menus: $scope.menus
                 }
                 $('#loadP').modal('show');
-                $http.post('../buyItem', data).success(function (data) {
+                $http.post('../exchangeItem', data).success(function (data) {
                     $('#loadP').modal('hide');
                     if (data.success) {
                         location.href = 'index.html';
@@ -86,15 +101,16 @@
             $scope.goHome = function () {
                 location.href = 'index.html';
             };
-            $scope.goBuy = function () {
-                location.href = 'buy.html';
+            $scope.goExchange = function () {
+                location.href = 'exchange.html';
             };
+            $scope.nowt = 0;
             $scope.getLogin();
         }]);
     </script>
 </head>
 
-<body ng-app="buy2App" ng-controller="buy2Ctl" ng-show="login.isLogin" style="background-color: #E5E5E5;">
+<body ng-app="exchange2App" ng-controller="exchange2Ctl" ng-show="login.isLogin" style="background-color: #E5E5E5;">
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -114,7 +130,7 @@
             <a href="javascript:void(0);" ng-click="goHome()">首页</a>
         </li>
         <li>
-            <a href="javascript:void(0);" ng-click="goBuy()">会员点单</a>
+            <a href="javascript:void(0);" ng-click="goExchange()">会员兑换</a>
         </li>
         <li class="active">选择产品</li>
     </ol>
@@ -124,6 +140,20 @@
                 <div class="row">
                     <div class="col-xs-7" style="text-align: left;" ng-bind="uname"></div>
                     <div class="col-xs-5" style="text-align: right;" ng-bind="mobile"></div>
+                </div>
+            </a>
+            <a href="javascript:void(0);" class="list-group-item" style="cursor: pointer;">
+                <div class="row">
+                    <div class="col-xs-6" style="text-align: left;">
+                        <span>已积累</span>
+                        <span ng-bind="ecnt"></span>
+                        <span>份</span>
+                    </div>
+                    <div class="col-xs-6" style="text-align: right;">
+                        <span>可兑换</span>
+                        <span ng-bind="cant" class="text-danger"></span>
+                        <span>份</span>
+                    </div>
                 </div>
             </a>
         </div>
@@ -146,7 +176,7 @@
         </a>
     </div>
     <div class="row" style="margin-top: 15px; padding-left: 15px; padding-right: 15px;">
-        <div class="btn btn-success btn-block" ng-click="buyItem()">确定点单</div>
+        <div class="btn btn-success btn-block" ng-click="exchangeItem()">确定兑换</div>
     </div>
 </div>
 <div class="modal fade" data-backdrop="static" id="loadP">

@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
+var async = require('async');
 var app = express();
 var config = require('./config');
 var port = config.port;
@@ -11,6 +12,7 @@ var dbIP = config.dbIP;
 var crypto = require('crypto');
 var admin = require('./model/admin');
 var user = require('./model/user');
+var order = require('./model/order');
 
 mongoose.connect('mongodb://' + dbIP + '/cafe');
 
@@ -129,6 +131,187 @@ app.post('/searchUsers', function (req, res) {
                     res.json({success: false, msg: 'error'});
                 } else {
                     res.json({success: true, msg: 'ok', rows: users});
+                }
+            });
+        } else {
+            res.json({success: false, msg: 'null'});
+        }
+    } else {
+        res.json({success: false, msg: '登录信息已过期，请重新登录'});
+    }
+});
+app.post('/buyItem', function (req, res) {
+    var mobile = req.body.mobile;
+    var uname = req.body.uname;
+    var admin = req.body.admin;
+    var menus = req.body.menus;
+    var isL = isLogin(req);
+    if (isL) {
+        if (mobile && uname && admin && menus) {
+            var i = 0;
+            var cnt = menus.length;
+            var oc = 0;
+            async.whilst(function () {
+                return i < cnt;
+            }, function (callback) {
+                var item = menus[i];
+                i++;
+                oc += item.num;
+                if (item.num > 0) {
+                    var o = new order({
+                        mobile: mobile,
+                        item: item.mname,
+                        cnt: item.num,
+                        unitPrice: item.money,
+                        type: 1,
+                        admin: admin,
+                    });
+                    o.save(function (err) {
+                        if (err) {
+                            callback('reg error');
+                        } else {
+                            callback();
+                        }
+                    });
+                } else {
+                    callback();
+                }
+            }, function (err) {
+                if (err) {
+                    res.json({success: false, msg: 'order ' + i + ' error'});
+                } else {
+                    user.findOne({mobile: mobile, uname: uname}, function (err, u) {
+                        if (err) {
+                            res.json({success: false, msg: 'error'});
+                        } else {
+                            if (u != null) {
+                                var newC = u.ecnt + oc;
+                                u.update({$set: {ecnt: newC}}, function (err) {
+                                    if (err) {
+                                        res.json({success: false, msg: 'error'});
+                                    } else {
+                                        res.json({success: true, msg: 'ok'});
+                                    }
+                                });
+                            } else {
+                                res.json({success: false, msg: 'error'});
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            res.json({success: false, msg: 'null'});
+        }
+    } else {
+        res.json({success: false, msg: '登录信息已过期，请重新登录'});
+    }
+});
+app.post('/getEcnt', function (req, res) {
+    var mobile = req.body.mobile;
+    var isL = isLogin(req);
+    if (isL) {
+        if (mobile) {
+            user.findOne({mobile: mobile}, function (err, u) {
+                if (err) {
+                    res.json({success: false, msg: 'error'});
+                } else {
+                    if (u != null) {
+                        res.json({success: true, msg: 'ok', ecnt: u.ecnt});
+                    } else {
+                        res.json({success: false, msg: 'error'});
+                    }
+                }
+            });
+        } else {
+            res.json({success: false, msg: 'null'});
+        }
+    } else {
+        res.json({success: false, msg: '登录信息已过期，请重新登录'});
+    }
+});
+app.post('/exchangeItem', function (req, res) {
+    var mobile = req.body.mobile;
+    var uname = req.body.uname;
+    var admin = req.body.admin;
+    var menus = req.body.menus;
+    var isL = isLogin(req);
+    if (isL) {
+        if (mobile && uname && admin && menus) {
+            var i = 0;
+            var cnt = menus.length;
+            var oc = 0;
+            async.whilst(function () {
+                return i < cnt;
+            }, function (callback) {
+                var item = menus[i];
+                i++;
+                oc += item.num;
+                if (item.num > 0) {
+                    var o = new order({
+                        mobile: mobile,
+                        item: item.mname,
+                        cnt: item.num,
+                        unitPrice: item.money,
+                        type: 2,
+                        admin: admin,
+                    });
+                    o.save(function (err) {
+                        if (err) {
+                            callback('reg error');
+                        } else {
+                            callback();
+                        }
+                    });
+                } else {
+                    callback();
+                }
+            }, function (err) {
+                if (err) {
+                    res.json({success: false, msg: 'order ' + i + ' error'});
+                } else {
+                    user.findOne({mobile: mobile, uname: uname}, function (err, u) {
+                        if (err) {
+                            res.json({success: false, msg: 'error'});
+                        } else {
+                            if (u != null) {
+                                var newC = u.ecnt - (oc * 2);
+                                u.update({$set: {ecnt: newC}}, function (err) {
+                                    if (err) {
+                                        res.json({success: false, msg: 'error'});
+                                    } else {
+                                        res.json({success: true, msg: 'ok'});
+                                    }
+                                });
+                            } else {
+                                res.json({success: false, msg: 'error'});
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            res.json({success: false, msg: 'null'});
+        }
+    } else {
+        res.json({success: false, msg: '登录信息已过期，请重新登录'});
+    }
+});
+app.post('/getOrders', function (req, res) {
+    var mobile = req.body.mobile;
+    var isL = isLogin(req);
+    if (isL) {
+        if (mobile) {
+            order.find({
+                mobile: mobile
+            }).sort({
+                    'createTime': 'desc'
+                }
+            ).exec(function (err, orders) {
+                if (err) {
+                    res.json({success: false, msg: 'error'});
+                } else {
+                    res.json({success: true, msg: 'ok', rows: orders});
                 }
             });
         } else {
