@@ -160,6 +160,7 @@ app.post('/buyItem', function (req, res) {
                 if (item.num > 0) {
                     var o = new order({
                         mobile: mobile,
+                        uname: uname,
                         item: item.mname,
                         cnt: item.num,
                         unitPrice: item.money,
@@ -250,6 +251,7 @@ app.post('/exchangeItem', function (req, res) {
                 if (item.num > 0) {
                     var o = new order({
                         mobile: mobile,
+                        uname: uname,
                         item: item.mname,
                         cnt: item.num,
                         unitPrice: item.money,
