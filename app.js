@@ -33,7 +33,7 @@ app.use(session({
 
 app.use('/wap', express.static(path.join(__dirname, 'static')));
 app.all('/', function (req, res) {
-    res.redirect('/wap/login.html');
+    res.redirect('/wap/index.html');
 });
 app.all('/isLogin', function (req, res) {
     if (req.session.login != null) {
@@ -207,7 +207,7 @@ app.post('/buyItem', function (req, res) {
         res.json({success: false, msg: '登录信息已过期，请重新登录'});
     }
 });
-app.post('/getEcnt', function (req, res) {
+app.post('/getUserInfo', function (req, res) {
     var mobile = req.body.mobile;
     var isL = isLogin(req);
     if (isL) {
@@ -217,7 +217,7 @@ app.post('/getEcnt', function (req, res) {
                     res.json({success: false, msg: 'error'});
                 } else {
                     if (u != null) {
-                        res.json({success: true, msg: 'ok', ecnt: u.ecnt});
+                        res.json({success: true, msg: 'ok', user: u});
                     } else {
                         res.json({success: false, msg: 'error'});
                     }
@@ -298,6 +298,23 @@ app.post('/exchangeItem', function (req, res) {
     }
 });
 app.post('/getOrders', function (req, res) {
+    var isL = isLogin(req);
+    if (isL) {
+        order.find().sort({
+                'createTime': 'desc'
+            }
+        ).exec(function (err, orders) {
+            if (err) {
+                res.json({success: false, msg: 'error'});
+            } else {
+                res.json({success: true, msg: 'ok', rows: orders});
+            }
+        });
+    } else {
+        res.json({success: false, msg: '登录信息已过期，请重新登录'});
+    }
+});
+app.post('/getOrdersByUser', function (req, res) {
     var mobile = req.body.mobile;
     var isL = isLogin(req);
     if (isL) {
@@ -333,16 +350,18 @@ function isLogin(req) {
         return false;
     }
 }
-app.all('/test', function (req, res) {
+function addAdmin(mobile, password, uname) {
     var md5 = crypto.createHash('md5');
-    md5.update('111111');
+    md5.update(password);
     var pass = md5.digest('hex');
-    var ad = new admin({mobile: '13708803633', pwd: pass, uname: 'sakuya'});
+    var ad = new admin({mobile: mobile, pwd: pass, uname: uname});
     ad.save(function (err) {
         if (err) {
-            res.json({success: false, msg: 'test error'});
+            console.log({success: false, msg: 'addAdmin error'});
         } else {
-            res.json({success: true, msg: 'test ok'});
+            console.log({success: true, msg: 'addAdmin ok'});
         }
     });
-});
+}
+
+// addAdmin('13788884444', '222222', 'sssss');

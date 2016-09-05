@@ -44,10 +44,10 @@
                 });
             };
             $scope.getEcnt = function () {
-                $http.post('../getEcnt', {mobile: $scope.mobile}).success(function (data) {
+                $http.post('../getUserInfo', {mobile: $scope.mobile}).success(function (data) {
                     if (data.success) {
-                        $scope.ecnt = data.ecnt;
-                        $scope.cant = Math.floor(data.ecnt / 2);
+                        $scope.ecnt = data.user.ecnt;
+                        $scope.cant = Math.floor(data.user.ecnt / 2);
                     } else {
                         $scope.showMsg(data.msg);
                     }
@@ -89,7 +89,7 @@
                 $http.post('../exchangeItem', data).success(function (data) {
                     $('#loadP').modal('hide');
                     if (data.success) {
-                        location.href = 'index.html';
+                        $scope.goUserlist2($scope.mobile);
                     } else {
                         $scope.showMsg(data.msg);
                     }
@@ -103,6 +103,9 @@
             };
             $scope.goExchange = function () {
                 location.href = 'exchange.html';
+            };
+            $scope.goUserlist2 = function (mobile) {
+                location.href = 'userlist2.html#/?mobile=' + mobile;
             };
             $scope.nowt = 0;
             $scope.getLogin();
@@ -119,7 +122,7 @@
             </div>
             <a class="navbar-brand" href="javascript:void(0);">
                 <div style="font-size: 21px; color: white;">什么鬼VIP系统<span
-                        style="font-size: 14px;">&nbsp;&nbsp;by Sakuya</span></div>
+                        style="font-size: 14px;">&nbsp;&nbsp;by Limit</span></div>
             </a>
         </div>
     </div>

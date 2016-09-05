@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://at.alicdn.com/t/font_1468045361_5525043.css" rel="stylesheet"/>
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
+    <style>
+        body,
+        body * {
+            font-family: "microsoft yahei";
+        }
+    </style>
+    <script>
+        var userlist2App = angular.module('userlist2App', []);
+        userlist2App.filter('typeFilter', function () {
+            return function (orders, type) {
+                if (orders != undefined) {
+                    if (type == 0) {
+                        return orders;
+                    } else {
+                        var newO = new Array();
+                        for (var i = 0; i < orders.length; i++) {
+                            var order = orders[i];
+                            if (order.type == type) {
+                                newO.push(order);
+                            }
+                        }
+                        return newO;
+                    }
+                }
+
+            }
+        });
+        userlist2App.controller('userlist2Ctl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+            $scope.showMsg = function (msg) {
+                $('#msgBody').html(msg);
+                $('#msgP').modal('show');
+            };
+            $scope.getLogin = function () {
+                $http.post('../isLogin').success(function (data) {
+                    if (data.success) {
+                        $scope.login = data.login;
+                        $scope.mobile = $location.search().mobile;
+                        $scope.getUserInfo();
+                        $scope.getOrdersByUser();
+                    } else {
+                        location.href = 'login.html';
+                    }
+                }).error(function () {
+                    location.href = 'login.html';
+                });
+            };
+            $scope.getUserInfo = function () {
+                $http.post('../getUserInfo', {mobile: $scope.mobile}).success(function (data) {
+                    if (data.success) {
+                        $scope.uname = data.user.uname;
+                    } else {
+                        $scope.showMsg(data.msg);
+                    }
+                }).error(function () {
+                    $scope.showMsg('访问不了服务器');
+                });
+            };
+            $scope.getOrdersByUser = function () {
+                $http.post('../getOrdersByUser', {mobile: $scope.mobile}).success(function (data) {
+                    if (data.success) {
+                        $scope.orders = data.rows;
+                    } else {
+                        $scope.showMsg(data.msg);
+                    }
+                }).error(function () {
+                    $scope.showMsg('访问不了服务器');
+                });
+            };
+            $scope.goHome = function () {
+                location.href = 'index.html';
+            };
+            $scope.goUserlist = function () {
+                location.href = 'userlist.html';
+            };
+            $scope.setType = function (type) {
+                $scope.type = type;
+            };
+            $scope.type = 1;
+            $scope.getLogin();
+        }]);
+    </script>
+</head>
+
+<body ng-app="userlist2App" ng-controller="userlist2Ctl" ng-show="login.isLogin" style="background-color: #E5E5E5;">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <div type="button" class="navbar-toggle" style="border-color: #666666; text-align: center;">
+                <span class="glyphicon glyphicon-remove" style="color: white; width: 26px;"></span>
+            </div>
+            <a class="navbar-brand" href="javascript:void(0);">
+                <div style="font-size: 21px; color: white;">什么鬼VIP系统<span
+                        style="font-size: 14px;">&nbsp;&nbsp;by Limit</span></div>
+            </a>
+        </div>
+    </div>
+</nav>
+<div class="container" style="max-width: 600px; margin-top: 60px;">
+    <ol class="breadcrumb" style="margin-top: 15px;">
+        <li>
+            <a href="javascript:void(0);" ng-click="goHome()">首页</a>
+        </li>
+        <li>
+            <a href="javascript:void(0);" ng-click="goUserlist()">查看会员</a>
+        </li>
+        <li class="active">会员信息</li>
+    </ol>
+    <div class="row" style="margin-top: 15px; padding-left: 15px; padding-right: 15px;">
+        <div class="list-group">
+            <a href="javascript:void(0);" class="list-group-item" style="cursor: pointer;">
+                <div class="row">
+                    <div class="col-xs-7" style="text-align: left;" ng-bind="uname"></div>
+                    <div class="col-xs-5" style="text-align: right;" ng-bind="mobile"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 0px; padding-left: 15px; padding-right: 15px;">
+        <div class="col-xs-4" style="padding-left: 0px; padding-right: 7px;">
+            <div class="btn btn-block" ng-class="type == 1 ? 'btn-primary' : 'btn-default'" ng-click="setType(1)">消费记录
+            </div>
+        </div>
+        <div class="col-xs-4" style="padding-left: 7px; padding-right: 7px;">
+            <div class="btn btn-block" ng-class="type == 2 ? 'btn-primary' : 'btn-default'" ng-click="setType(2)">兑换记录
+            </div>
+        </div>
+        <div class="col-xs-4" style="padding-left: 7px; padding-right: 0px;">
+            <div class="btn btn-block" ng-class="type == 0 ? 'btn-primary' : 'btn-default'" ng-click="setType(0)">
+                全部记录
+            </div>
+        </div>
+    </div>
+    <div class="list-group" style="margin-top: 15px;">
+        <a href="javascript:void(0);" class="list-group-item"
+           ng-class="order.type == 1 ? 'list-group-item-info' : 'list-group-item-success'"
+           ng-repeat="order in orders | typeFilter: type"
+           style="cursor: pointer;">
+            <div class="row">
+                <div class="col-xs-5" style="text-align: left; padding-left: 15px; padding-right: 0px;"
+                     ng-bind="order.item"></div>
+                <div class="col-xs-1" style="text-align: left; padding-left: 0px; padding-right: 0px;"
+                     ng-bind="order.cnt"></div>
+                <div class="col-xs-6" style="text-align: right; padding-left: 0px; padding-right: 15px;"
+                     ng-bind="order.createTime | date: 'MM-dd'"></div>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="modal fade" data-backdrop="static" id="loadP">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>数据交互中，请等待</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="msgP">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="msgBody"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

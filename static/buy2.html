@@ -74,7 +74,7 @@
                 $http.post('../buyItem', data).success(function (data) {
                     $('#loadP').modal('hide');
                     if (data.success) {
-                        location.href = 'index.html';
+                        $scope.goUserlist2($scope.mobile);
                     } else {
                         $scope.showMsg(data.msg);
                     }
@@ -88,6 +88,9 @@
             };
             $scope.goBuy = function () {
                 location.href = 'buy.html';
+            };
+            $scope.goUserlist2 = function (mobile) {
+                location.href = 'userlist2.html#/?mobile=' + mobile;
             };
             $scope.getLogin();
         }]);
@@ -103,7 +106,7 @@
             </div>
             <a class="navbar-brand" href="javascript:void(0);">
                 <div style="font-size: 21px; color: white;">什么鬼VIP系统<span
-                        style="font-size: 14px;">&nbsp;&nbsp;by Sakuya</span></div>
+                        style="font-size: 14px;">&nbsp;&nbsp;by Limit</span></div>
             </a>
         </div>
     </div>

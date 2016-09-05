@@ -54,6 +54,9 @@
             $scope.goHome = function () {
                 location.href = 'index.html';
             };
+            $scope.goUserlist2 = function (mobile) {
+                location.href = 'userlist2.html#/?mobile=' + mobile;
+            };
             $scope.getLogin();
         }]);
     </script>
@@ -68,7 +71,7 @@
             </div>
             <a class="navbar-brand" href="javascript:void(0);">
                 <div style="font-size: 21px; color: white;">什么鬼VIP系统<span
-                        style="font-size: 14px;">&nbsp;&nbsp;by Sakuya</span></div>
+                        style="font-size: 14px;">&nbsp;&nbsp;by Limit</span></div>
             </a>
         </div>
     </div>
@@ -81,7 +84,7 @@
         <li class="active">查看会员</li>
     </ol>
     <div class="list-group">
-        <a href="javascript:void(0);" class="list-group-item" ng-repeat="user in users" style="cursor: pointer;">
+        <a href="javascript:void(0);" class="list-group-item" ng-repeat="user in users" ng-click="goUserlist2(user.mobile)" style="cursor: pointer;">
             <div class="row">
                 <div class="col-xs-7" style="text-align: left;" ng-bind="user.uname"></div>
                 <div class="col-xs-5" style="text-align: right;" ng-bind="user.mobile"></div>
