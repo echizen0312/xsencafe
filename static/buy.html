@@ -29,15 +29,42 @@
                 $('#msgBody').html(msg);
                 $('#msgP').modal('show');
             };
+            $scope.getLogin = function () {
+                $http.post('../isLogin').success(function (data) {
+                    if (data.success) {
+                        $scope.login = data.login;
+                    } else {
+                        location.href = 'login.html';
+                    }
+                }).error(function () {
+                    location.href = 'login.html';
+                });
+            };
+            $scope.searchUsers = function () {
+                if ($scope.kw != undefined && $scope.kw.trim() != '') {
+                    $http.post('../searchUsers', {kw: $scope.kw}).success(function (data) {
+                        if (data.success) {
+                            $scope.users = data.rows;
+                        } else {
+                            $scope.showMsg(data.msg);
+                        }
+                    }).error(function () {
+                        $scope.showMsg('访问不了服务器');
+                    });
+                } else {
+                    $scope.showMsg('你啥都没填');
+                }
+            };
             $scope.goHome = function () {
                 location.href = 'index.html';
             };
             $scope.kw = '';
+            $scope.getLogin();
         }]);
     </script>
 </head>
 
-<body ng-app="buyApp" ng-controller="buyCtl" style="background-color: #E5E5E5;">
+<body ng-app="buyApp" ng-controller="buyCtl" ng-show="login.isLogin" style="background-color: #E5E5E5;">
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -65,11 +92,19 @@
                 <div class="input-group has-success">
                     <input type="text" class="form-control" placeholder="请输入筛选条件" ng-model="kw">
 							<span class="input-group-btn">
-	        					<div class="btn btn-success" type="button">查询</div>
+	        					<div class="btn btn-success" type="button" ng-click="searchUsers()">查询</div>
 	      					</span>
                 </div>
             </div>
         </form>
+    </div>
+    <div class="list-group">
+        <a href="javascript:void(0);" class="list-group-item" ng-repeat="user in users" style="cursor: pointer;">
+            <div class="row">
+                <div class="col-xs-7" style="text-align: left;" ng-bind="user.uname"></div>
+                <div class="col-xs-5" style="text-align: right;" ng-bind="user.mobile"></div>
+            </div>
+        </a>
     </div>
 </div>
 <div class="modal fade" data-backdrop="static" id="loadP">

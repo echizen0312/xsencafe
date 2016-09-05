@@ -30,10 +30,19 @@
                 $('#msgP').modal('show');
             };
             $scope.getLogin = function () {
-                $scope.getUsers();
+                $http.post('../isLogin').success(function (data) {
+                    if (data.success) {
+                        $scope.login = data.login;
+                        $scope.getUsers();
+                    } else {
+                        location.href = 'login.html';
+                    }
+                }).error(function () {
+                    location.href = 'login.html';
+                });
             };
             $scope.getUsers = function () {
-                $http.get('data/users.json').success(function (data) {
+                $http.post('../getUsers').success(function (data) {
                     if (data.success) {
                         $scope.users = data.rows;
                     } else {
@@ -46,13 +55,12 @@
             $scope.goHome = function () {
                 location.href = 'index.html';
             };
-            $scope.kw = '';
             $scope.getLogin();
         }]);
     </script>
 </head>
 
-<body ng-app="userlistApp" ng-controller="userlistCtl" style="background-color: #E5E5E5;">
+<body ng-app="userlistApp" ng-controller="userlistCtl" ng-show="login.isLogin" style="background-color: #E5E5E5;">
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">

@@ -29,6 +29,6 @@ loginApp.controller('loginCtl', ['$scope', '$http', function ($scope, $http) {
             $scope.showMsg('输入不完全');
         }
     };
-    $scope.mobile = '';
-    $scope.password = '';
+    $scope.mobile = '13708803633';
+    $scope.password = '111111';
 }]);

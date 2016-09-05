@@ -93,6 +93,51 @@ app.post('/regUser', function (req, res) {
         res.json({success: false, msg: '登录信息已过期，请重新登录'});
     }
 });
+app.post('/getUsers', function (req, res) {
+    var isL = isLogin(req);
+    if (isL) {
+        user.find().sort({
+                'createTime': 'desc'
+            }
+        ).exec(function (err, users) {
+            if (err) {
+                res.json({success: false, msg: 'error'});
+            } else {
+                res.json({success: true, msg: 'ok', rows: users});
+            }
+        });
+    } else {
+        res.json({success: false, msg: '登录信息已过期，请重新登录'});
+    }
+});
+app.post('/searchUsers', function (req, res) {
+    var kw = req.body.kw;
+    var isL = isLogin(req);
+    if (isL) {
+        if (kw) {
+            var reg = new RegExp(kw, 'i'); //不区分大小写
+            user.find({
+                $or: [
+                    {mobile: {$regex: reg}},
+                    {uname: {$regex: reg}}
+                ]
+            }).sort({
+                    'createTime': 'desc'
+                }
+            ).exec(function (err, users) {
+                if (err) {
+                    res.json({success: false, msg: 'error'});
+                } else {
+                    res.json({success: true, msg: 'ok', rows: users});
+                }
+            });
+        } else {
+            res.json({success: false, msg: 'null'});
+        }
+    } else {
+        res.json({success: false, msg: '登录信息已过期，请重新登录'});
+    }
+});
 
 function isLogin(req) {
     if (req.session.login != null) {
