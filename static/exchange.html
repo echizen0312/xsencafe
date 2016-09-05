@@ -42,13 +42,16 @@
             };
             $scope.searchUsers = function () {
                 if ($scope.kw != undefined && $scope.kw.trim() != '') {
+                    $('#loadP').modal('show');
                     $http.post('../searchUsers', {kw: $scope.kw}).success(function (data) {
+                        $('#loadP').modal('hide');
                         if (data.success) {
                             $scope.users = data.rows;
                         } else {
                             $scope.showMsg(data.msg);
                         }
                     }).error(function () {
+                        $('#loadP').modal('hide');
                         $scope.showMsg('访问不了服务器');
                     });
                 } else {

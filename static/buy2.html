@@ -15,7 +15,7 @@
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="http://cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
-    <script src="js/orderlist.js"></script>
+    <script src="js/buy.js"></script>
     <style>
         body,
         body * {
@@ -23,8 +23,8 @@
         }
     </style>
     <script>
-        var orderlistApp = angular.module('orderlistApp', []);
-        orderlistApp.controller('orderlistCtl', ['$scope', '$http', function ($scope, $http) {
+        var buy2App = angular.module('buy2App', []);
+        buy2App.controller('buy2Ctl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
             $scope.showMsg = function (msg) {
                 $('#msgBody').html(msg);
                 $('#msgP').modal('show');
@@ -33,6 +33,9 @@
                 $http.post('../isLogin').success(function (data) {
                     if (data.success) {
                         $scope.login = data.login;
+                        $scope.mobile = $location.search().mobile;
+                        $scope.uname = $location.search().uname;
+                        $scope.getMenus();
                     } else {
                         location.href = 'login.html';
                     }
@@ -40,34 +43,49 @@
                     location.href = 'login.html';
                 });
             };
-            $scope.searchUsers = function () {
-                if ($scope.kw != undefined && $scope.kw.trim() != '') {
-                    $('#loadP').modal('show');
-                    $http.post('../searchUsers', {kw: $scope.kw}).success(function (data) {
-                        $('#loadP').modal('hide');
-                        if (data.success) {
-                            $scope.users = data.rows;
-                        } else {
-                            $scope.showMsg(data.msg);
-                        }
-                    }).error(function () {
-                        $('#loadP').modal('hide');
-                        $scope.showMsg('访问不了服务器');
-                    });
-                } else {
-                    $scope.showMsg('你啥都没填');
+            $scope.getMenus = function () {
+                $http.get('data/menu.json').success(function (data) {
+                    if (data.success) {
+                        $scope.menus = data.rows;
+                    } else {
+                        $scope.showMsg(data.msg);
+                    }
+                }).error(function () {
+                    $scope.showMsg('访问不了服务器');
+                });
+            };
+            $scope.buyItem = function (menu) {
+                var data = {
+                    mobile: $scope.mobile,
+                    uname: $scope.uname,
+                    admin: $scope.login.mobile,
+                    menu: menu
                 }
+                $('#loadP').modal('show');
+                $http.post('../buyItem', data).success(function (data) {
+                    $('#loadP').modal('hide');
+                    if (data.success) {
+                        $scope.showMsg('ok');
+                    } else {
+                        $scope.showMsg(data.msg);
+                    }
+                }).error(function () {
+                    $('#loadP').modal('hide');
+                    $scope.showMsg('访问不了服务器');
+                });
             };
             $scope.goHome = function () {
                 location.href = 'index.html';
             };
-            $scope.kw = '';
+            $scope.goBuy = function () {
+                location.href = 'buy.html';
+            };
             $scope.getLogin();
         }]);
     </script>
 </head>
 
-<body ng-app="orderlistApp" ng-controller="orderlistCtl" ng-show="login.isLogin" style="background-color: #E5E5E5;">
+<body ng-app="buy2App" ng-controller="buy2Ctl" ng-show="login.isLogin" style="background-color: #E5E5E5;">
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -86,26 +104,26 @@
         <li>
             <a href="javascript:void(0);" ng-click="goHome()">首页</a>
         </li>
-        <li class="active">查看记录</li>
+        <li>
+            <a href="javascript:void(0);" ng-click="goBuy()">点单会员</a>
+        </li>
+        <li class="active">选择产品</li>
     </ol>
     <div class="row" style="margin-top: 15px; padding-left: 15px; padding-right: 15px;">
-        <form name="regForm">
-            <div class="form-group">
-                <label>输入条件</label>
-                <div class="input-group has-success">
-                    <input type="text" class="form-control" placeholder="请输入筛选条件" ng-model="kw">
-							<span class="input-group-btn">
-	        					<div class="btn btn-success" type="button" ng-click="searchUsers()">查询</div>
-	      					</span>
+        <div class="list-group">
+            <a href="javascript:void(0);" class="list-group-item" style="cursor: pointer;">
+                <div class="row">
+                    <div class="col-xs-7" style="text-align: left;" ng-bind="uname"></div>
+                    <div class="col-xs-5" style="text-align: right;" ng-bind="mobile"></div>
                 </div>
-            </div>
-        </form>
+            </a>
+        </div>
     </div>
     <div class="list-group">
-        <a href="javascript:void(0);" class="list-group-item" ng-repeat="user in users" style="cursor: pointer;">
+        <a href="javascript:void(0);" class="list-group-item" ng-repeat="menu in menus" ng-click="buyItem(menu)" style="cursor: pointer;">
             <div class="row">
-                <div class="col-xs-7" style="text-align: left;" ng-bind="user.uname"></div>
-                <div class="col-xs-5" style="text-align: right;" ng-bind="user.mobile"></div>
+                <div class="col-xs-7" style="text-align: left;" ng-bind="menu.mname"></div>
+                <div class="col-xs-5" style="text-align: right;" ng-bind="menu.money"></div>
             </div>
         </a>
     </div>

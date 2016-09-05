@@ -42,13 +42,16 @@
             };
             $scope.searchUsers = function () {
                 if ($scope.kw != undefined && $scope.kw.trim() != '') {
+                    $('#loadP').modal('show');
                     $http.post('../searchUsers', {kw: $scope.kw}).success(function (data) {
+                        $('#loadP').modal('hide');
                         if (data.success) {
                             $scope.users = data.rows;
                         } else {
                             $scope.showMsg(data.msg);
                         }
                     }).error(function () {
+                        $('#loadP').modal('hide');
                         $scope.showMsg('访问不了服务器');
                     });
                 } else {
@@ -57,6 +60,9 @@
             };
             $scope.goHome = function () {
                 location.href = 'index.html';
+            };
+            $scope.goBuy2 = function (user) {
+                location.href = 'buy2.html#/?mobile=' + user.mobile + '&uname=' + user.uname;
             };
             $scope.kw = '';
             $scope.getLogin();
@@ -83,7 +89,7 @@
         <li>
             <a href="javascript:void(0);" ng-click="goHome()">首页</a>
         </li>
-        <li class="active">点单</li>
+        <li class="active">点单会员</li>
     </ol>
     <div class="row" style="margin-top: 15px; padding-left: 15px; padding-right: 15px;">
         <form name="regForm">
@@ -99,7 +105,7 @@
         </form>
     </div>
     <div class="list-group">
-        <a href="javascript:void(0);" class="list-group-item" ng-repeat="user in users" style="cursor: pointer;">
+        <a href="javascript:void(0);" class="list-group-item" ng-repeat="user in users" ng-click="goBuy2(user)" style="cursor: pointer;">
             <div class="row">
                 <div class="col-xs-7" style="text-align: left;" ng-bind="user.uname"></div>
                 <div class="col-xs-5" style="text-align: right;" ng-bind="user.mobile"></div>
