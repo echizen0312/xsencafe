@@ -225,7 +225,11 @@ app.post('/getUserInfo', function (req, res) {
                             if (err) {
                                 res.json({success: false, msg: 'error'});
                             } else {
-                                res.json({success: true, msg: 'ok', user: u, wbc: orders.length});
+                                var tc = 0;
+                                for(var i = 0; i < orders.length; i++){
+                                    tc += orders[i].cnt;
+                                }
+                                res.json({success: true, msg: 'ok', user: u, wbc: tc});
                             }
                         });
                     } else {
