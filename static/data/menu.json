@@ -3,18 +3,28 @@
   "msg": "ok",
   "rows": [
     {
-      "mname": "一瓶可乐",
-      "money": 3,
+      "mname": "卡布奇诺",
+      "money": 22,
       "num": 0
     },
     {
-      "mname": "一杯咖啡",
-      "money": 8,
+      "mname": "香草拿铁",
+      "money": 25,
       "num": 0
     },
     {
-      "mname": "一盘炸鸡",
-      "money": 15,
+      "mname": "原味拿铁",
+      "money": 22,
+      "num": 0
+    },
+    {
+      "mname": "丝袜奶茶",
+      "money": 20,
+      "num": 0
+    },
+    {
+      "mname": "美式咖啡",
+      "money": 18,
       "num": 0
     }
   ]

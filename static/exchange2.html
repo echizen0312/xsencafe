@@ -47,6 +47,7 @@
                 $http.post('../getUserInfo', {mobile: $scope.mobile}).success(function (data) {
                     if (data.success) {
                         $scope.ecnt = data.user.ecnt;
+                        $scope.wbc = data.wbc;
                         $scope.cant = Math.floor(data.user.ecnt / 2);
                     } else {
                         $scope.showMsg(data.msg);
@@ -147,15 +148,17 @@
             </a>
             <a href="javascript:void(0);" class="list-group-item" style="cursor: pointer;">
                 <div class="row">
-                    <div class="col-xs-6" style="text-align: left;">
+                    <div class="col-xs-4" style="text-align: left;">
+                        <span>总消费</span>
+                        <span ng-bind="wbc" class="text-danger"></span>
+                    </div>
+                    <div class="col-xs-4" style="text-align: center;">
                         <span>已积累</span>
                         <span ng-bind="ecnt"></span>
-                        <span>份</span>
                     </div>
-                    <div class="col-xs-6" style="text-align: right;">
+                    <div class="col-xs-4" style="text-align: right;">
                         <span>可兑换</span>
                         <span ng-bind="cant" class="text-danger"></span>
-                        <span>份</span>
                     </div>
                 </div>
             </a>
@@ -178,7 +181,7 @@
             </div>
         </a>
     </div>
-    <div class="row" style="margin-top: 15px; padding-left: 15px; padding-right: 15px;">
+    <div class="row" style="margin-top: 15px; margin-bottom: 15px; padding-left: 15px; padding-right: 15px;">
         <div class="btn btn-success btn-block" ng-click="exchangeItem()">确定兑换</div>
     </div>
 </div>

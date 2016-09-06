@@ -218,7 +218,16 @@ app.post('/getUserInfo', function (req, res) {
                     res.json({success: false, msg: 'error'});
                 } else {
                     if (u != null) {
-                        res.json({success: true, msg: 'ok', user: u});
+                        order.find({
+                            mobile: mobile,
+                            type: 1
+                        }).exec(function (err, orders) {
+                            if (err) {
+                                res.json({success: false, msg: 'error'});
+                            } else {
+                                res.json({success: true, msg: 'ok', user: u, wbc: orders.length});
+                            }
+                        });
                     } else {
                         res.json({success: false, msg: 'error'});
                     }

@@ -82,54 +82,46 @@
     </div>
 </nav>
 <div class="container" style="max-width: 600px; margin-top: 60px;">
-    <div class="row" style="margin-top: 15px;">
-        <div class="col-xs-4" style="padding-right: 7px;">
-            <div class="btn btn-info" style="width: 100%; height: 60px; line-height: 45px;" ng-click="goMo1()">注册会员
-            </div>
-        </div>
-        <div class="col-xs-4" style="padding-left: 7px; padding-right: 7px;">
-            <div class="btn btn-info" style="width: 100%; height: 60px; line-height: 45px;" ng-click="goMo2()">查看会员
-            </div>
-        </div>
-        <div class="col-xs-4" style="padding-left: 7px;">
-            <div class="btn btn-info" style="width: 100%; height: 60px; line-height: 45px;" ng-click="goMo3()">查看记录
-            </div>
-        </div>
-    </div>
     <div class="row" style="margin-top: 14px;">
-        <div class="col-xs-6" style="padding-right: 7px;">
-            <div class="btn btn-success" style="width: 100%; height: 120px; line-height: 105px; font-size: 20px;"
+        <div class="col-xs-5" style="padding-right: 7px;">
+            <div class="btn btn-info" style="width: 100%; height: 95px; line-height: 80px; margin-bottom: 15px;" ng-click="goMo1()">注册会员
+            </div>
+            <div class="btn btn-info" style="width: 100%; height: 95px; line-height: 80px; margin-bottom: 15px;" ng-click="goMo2()">查看会员
+            </div>
+            <div class="btn btn-info" style="width: 100%; height: 95px; line-height: 80px; margin-bottom: 15px;" ng-click="goMo3()">查看记录
+            </div>
+
+        </div>
+        <div class="col-xs-7" style="padding-left: 7px;">
+            <div class="btn btn-success" style="width: 100%; height: 150px; line-height: 135px; font-size: 22px; margin-bottom: 15px;"
                  ng-click="goMo4()"><span class="iconfont icon-dati"></span> 点单
             </div>
-        </div>
-        <div class="col-xs-6" style="padding-left: 7px;">
-            <div class="btn btn-primary" style="width: 100%; height: 120px; line-height: 105px; font-size: 20px;"
+            <div class="btn btn-primary" style="width: 100%; height: 150px; line-height: 135px; font-size: 22px; margin-bottom: 15px;"
                  ng-click="goMo5()"><span class="iconfont icon-xiuxiankafeiyule"></span> 兑换
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" data-backdrop="static" id="loadP">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div>数据交互中，请等待</div>
+    <div class="modal fade" data-backdrop="static" id="loadP">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div>数据交互中，请等待</div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="msgP">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div id="msgBody"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+    <div class="modal fade" id="msgP">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="msgBody"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 
 </html>

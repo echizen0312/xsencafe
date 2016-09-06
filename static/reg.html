@@ -50,7 +50,7 @@
                 if ($scope.mobile.length != 11) {
                     $scope.showMsg('手机号格式不正确');
                 } else if ($scope.uname.length < 2 || $scope.uname.length > 12) {
-                    $scope.showMsg('昵称长度只能2-12位');
+                    $scope.showMsg('姓名长度只能2-12位');
                 } else {
                     var data = {
                         mobile: $scope.mobile,
@@ -113,8 +113,8 @@
                 <input type="text" class="form-control" placeholder="请输入TA的手机号" ng-model="mobile" required="true">
             </div>
             <div class="form-group">
-                <label>昵称</label>
-                <input type="text" class="form-control" placeholder="请输入TA的昵称" ng-model="uname" required="true">
+                <label>姓名</label>
+                <input type="text" class="form-control" placeholder="请输入TA的姓名" ng-model="uname" required="true">
             </div>
             <div class="row" style="margin-top: 30px;;">
                 <div class="col-xs-6">
