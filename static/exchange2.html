@@ -108,6 +108,9 @@
             $scope.goUserlist2 = function (mobile) {
                 location.href = 'userlist2.html#/?mobile=' + mobile;
             };
+            $scope.goBuy2 = function () {
+                location.href = 'buy2.html#/?mobile=' + $scope.mobile + '&uname=' + $scope.uname;
+            };
             $scope.nowt = 0;
             $scope.getLogin();
         }]);
@@ -161,6 +164,9 @@
                         <span ng-bind="cant" class="text-danger"></span>
                     </div>
                 </div>
+            </a>
+            <a href="javascript:void(0);" class="list-group-item">
+                <div class="btn btn-primary btn-block" ng-click="goBuy2()">去点单页面</div>
             </a>
         </div>
     </div>
